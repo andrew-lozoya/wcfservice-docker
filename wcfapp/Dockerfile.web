@@ -6,6 +6,6 @@ RUN msbuild /p:Configuration=Release
 FROM mcr.microsoft.com/dotnet/framework/wcf:4.8 AS runtime
 WORKDIR /inetpub/wwwroot
 COPY --from=build /app/ .
-COPY wcfapp/start-and-monitor.sh C:\\start-and-monitor.ps1
+COPY wcfapp/start-and-monitor.ps1 C:\\start-and-monitor.ps1
 
 ENTRYPOINT ["powershell.exe", "C:\\start-and-monitor.ps1"]
