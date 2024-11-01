@@ -4,7 +4,7 @@ COPY wcfapp/WcfServiceWebApp/. .
 RUN msbuild /p:Configuration=Release
 
 # Find the ngen.exe path dynamically and use it to precompile the DLL
-RUN powershell -Command "$ngenPath = (Get-ChildItem 'C:\Windows\Microsoft.NET\' -Recurse -Filter ngen.exe | Where-Object { $_.FullName -match 'Framework64|Framework' -and $_.FullName -match 'v4.0' } | Select-Object -First 1).FullName; if ($ngenPath) { & $ngenPath install bin\WcfServiceWebApp.dll } else { Write-Error 'ngen.exe not found'; exit 1 }"
+RUN powershell -Command "$ngenPath = Get-Command ngen.exe -ErrorAction SilentlyContinue; if (-not $ngenPath) { $ngenPath = Get-ChildItem 'C:\\Windows\\Microsoft.NET\\' -Recurse -Filter ngen.exe | Where-Object { $_.FullName -match 'Framework64|Framework' -and $_.FullName -match 'v4.0' } | Select-Object -First 1; } if ($ngenPath) { & $ngenPath install bin\\WcfServiceWebApp.dll } else { Write-Error 'ngen.exe not found'; exit 1 }"
 
 FROM mcr.microsoft.com/dotnet/framework/wcf:4.8 AS runtime
 WORKDIR /inetpub/wwwroot
