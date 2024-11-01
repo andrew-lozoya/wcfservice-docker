@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/framework/sdk:4.8 AS build
 WORKDIR /app
 COPY wcfapp/WcfServiceWebApp/. .
 RUN msbuild /p:Configuration=Release
+RUN NGEN install bin/WcfServiceWebApp.dll
 
 FROM mcr.microsoft.com/dotnet/framework/wcf:4.8 AS runtime
 WORKDIR /inetpub/wwwroot
