@@ -11,4 +11,4 @@ WORKDIR /inetpub/wwwroot
 COPY --from=build /app/ .
 COPY wcfapp/BeforeSetup.ps1 /inetpub/wwwroot/Scripts/BeforeSetup.ps1
 
-ENTRYPOINT ["cmd", "/S", "/C", "powershell", "-command", "./Scripts/BeforeSetup.ps1", "&&", "C:\\ServiceMonitor.exe", "w3svc"]
+ENTRYPOINT ["cmd", "/S", "/C", "powershell", "-command", "C:\\newrelic-instrumentation\\BeforeSetup.ps1", "&&", "C:\\ServiceMonitor.exe", "w3svc"]
