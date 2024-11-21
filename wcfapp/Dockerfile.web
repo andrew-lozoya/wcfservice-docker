@@ -9,5 +9,6 @@ RUN C:\Windows\Microsoft.NET\Framework\v4.0.30319\ngen.exe install bin\WcfServic
 FROM mcr.microsoft.com/dotnet/framework/wcf:4.8 AS runtime
 WORKDIR /inetpub/wwwroot
 COPY --from=build /app/ .
+COPY wcfapp/BeforeSetup.ps1 /inetpub/wwwroot/Scripts/BeforeSetup.ps1
 
-ENTRYPOINT ["C:\\ServiceMonitor.exe", "w3svc"]
+ENTRYPOINT ["cmd", "/S", "/C", "powershell", "-command", "./Scripts/BeforeSetup.ps1", "&&", "C:\\ServiceMonitor.exe", "w3svc"]
